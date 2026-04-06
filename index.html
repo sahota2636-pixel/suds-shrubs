@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suds &amp; Shrubs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: #0d1117;
+      color: #e6edf3;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 20px 40px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 460px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2d6a4f 0%, #52b788 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: 800;
+      color: #fff;
+      box-shadow: 0 0 0 4px #1a2e23, 0 0 0 7px #2d6a4f55;
+      letter-spacing: -0.5px;
+      flex-shrink: 0;
+    }
+
+    .name {
+      font-size: 28px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+    }
+
+    .tagline {
+      font-size: 14px;
+      color: #8b949e;
+      letter-spacing: 0.2px;
+    }
+
+    /* ── Link Cards ── */
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 15px 18px;
+      background: #161b22;
+      border: 1px solid #21262d;
+      border-radius: 14px;
+      text-decoration: none;
+      color: #e6edf3;
+      font-weight: 600;
+      font-size: 15px;
+      transition: background 0.18s, border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+      position: relative;
+    }
+
+    .link-card[href="#"] {
+      opacity: 0.55;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .link-card:not([href="#"]):hover {
+      background: #1c2330;
+      border-color: #52b788;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(82, 183, 136, 0.18);
+    }
+
+    .link-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icon-instagram { background: linear-gradient(45deg, #f09433, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888); }
+    .icon-facebook  { background: #1877f2; }
+    .icon-website   { background: linear-gradient(135deg, #2d6a4f, #52b788); }
+    .icon-quote     { background: linear-gradient(135deg, #1a4731, #2d6a4f); border: 1px solid #3a7a5a; }
+
+    .link-label { flex: 1; }
+
+    .link-arrow {
+      color: #3e4c59;
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 1;
+    }
+
+    .link-card:not([href="#"]):hover .link-arrow {
+      color: #52b788;
+    }
+
+    .coming-soon {
+      font-size: 10px;
+      font-weight: 600;
+      color: #52b788;
+      background: #1a2e23;
+      border: 1px solid #2d6a4f;
+      border-radius: 6px;
+      padding: 2px 7px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* ── QR Code Section ── */
+    .qr-section {
+      background: #161b22;
+      border: 1px solid #21262d;
+      border-radius: 16px;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .qr-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: #52b788;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+    }
+
+    #qrcode {
+      background: #fff;
+      border-radius: 10px;
+      padding: 8px;
+      display: inline-flex;
+    }
+
+    #qrcode canvas, #qrcode img { display: block; border-radius: 4px; }
+
+    .qr-url-row {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .qr-url-input {
+      flex: 1;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      color: #8b949e;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      padding: 8px 12px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .qr-url-input:focus {
+      border-color: #52b788;
+      color: #e6edf3;
+    }
+
+    .qr-update-btn {
+      background: #2d6a4f;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+
+    .qr-update-btn:hover { background: #40916c; }
+
+    .qr-download-btn {
+      background: transparent;
+      color: #52b788;
+      border: 1px solid #2d6a4f;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 20px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .qr-download-btn:hover {
+      background: #1a2e23;
+    }
+
+    .qr-note {
+      font-size: 12px;
+      color: #3e4c59;
+      text-align: center;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: #30363d;
+      padding-top: 8px;
+    }
+
+    footer a { color: #3e4c59; text-decoration: none; }
+    footer a:hover { color: #52b788; }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="avatar">S&amp;S</div>
+      <h1 class="name">Suds &amp; Shrubs</h1>
+      <p class="tagline">Make Your Home Cleaner &amp; Safer!</p>
+    </header>
+
+    <!-- Links -->
+    <nav class="links">
+
+      <!-- Instagram (placeholder — add URL when ready) -->
+      <a href="#" class="link-card" id="instagram-card">
+        <div class="link-icon icon-instagram">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="white" stroke-width="2"/>
+            <circle cx="12" cy="12" r="4.2" stroke="white" stroke-width="2"/>
+            <circle cx="17.5" cy="6.5" r="1.4" fill="white"/>
+          </svg>
+        </div>
+        <span class="link-label">Instagram</span>
+        <span class="coming-soon">Coming Soon</span>
+      </a>
+
+      <!-- Facebook -->
+      <a href="https://www.facebook.com/profile.php?id=61575352522434" class="link-card" target="_blank" rel="noopener noreferrer">
+        <div class="link-icon icon-facebook">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+          </svg>
+        </div>
+        <span class="link-label">Facebook</span>
+        <span class="link-arrow">›</span>
+      </a>
+
+      <!-- Website -->
+      <a href="https://suds-shrubs.com" class="link-card" target="_blank" rel="noopener noreferrer">
+        <div class="link-icon icon-website">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <span class="link-label">Visit Our Website</span>
+        <span class="link-arrow">›</span>
+      </a>
+
+      <!-- Get a Quote (placeholder — add URL when ready) -->
+      <a href="#" class="link-card" id="quote-card">
+        <div class="link-icon icon-quote">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            <line x1="8" y1="10" x2="16" y2="10"/>
+            <line x1="8" y1="14" x2="13" y2="14"/>
+          </svg>
+        </div>
+        <span class="link-label">Get a Free Quote</span>
+        <span class="coming-soon">Coming Soon</span>
+      </a>
+
+    </nav>
+
+    <!-- QR Code -->
+    <div class="qr-section">
+      <p class="qr-title">&#9632; Scan to Share</p>
+      <div id="qrcode"></div>
+      <div class="qr-url-row">
+        <input
+          type="url"
+          id="qr-url-input"
+          class="qr-url-input"
+          placeholder="Enter your page URL for QR code..."
+        />
+        <button class="qr-update-btn" onclick="updateQR()">Update</button>
+      </div>
+      <button class="qr-download-btn" onclick="downloadQR()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Download QR Code
+      </button>
+      <p class="qr-note">Once this page is hosted, paste the URL above and click Update.</p>
+    </div>
+
+    <footer>
+      &copy; 2026 Suds &amp; Shrubs &nbsp;&middot;&nbsp; All rights reserved
+    </footer>
+
+  </div>
+
+  <!-- QR Code Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+    integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSi2jPsROqiefWMDkydtJn3Nj80OiJTiRfzg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+    // Default QR target: current page URL (works when hosted), else the website URL
+    const defaultUrl = window.location.href.startsWith('file:')
+      ? 'https://suds-shrubs.com'
+      : window.location.href;
+
+    const input = document.getElementById('qr-url-input');
+    input.value = defaultUrl;
+
+    let qrInstance = null;
+
+    function buildQR(url) {
+      const container = document.getElementById('qrcode');
+      container.innerHTML = '';
+      qrInstance = new QRCode(container, {
+        text: url,
+        width: 168,
+        height: 168,
+        colorDark: '#0d1117',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    }
+
+    function updateQR() {
+      const url = input.value.trim();
+      if (!url) return;
+      buildQR(url);
+    }
+
+    function downloadQR() {
+      const canvas = document.querySelector('#qrcode canvas');
+      if (!canvas) { alert('QR code not generated yet.'); return; }
+      const link = document.createElement('a');
+      link.download = 'suds-shrubs-qr.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    // Generate on load
+    buildQR(defaultUrl);
+  </script>
+</body>
+</html>
