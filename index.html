@@ -142,101 +142,6 @@
       text-transform: uppercase;
     }
 
-    /* ── QR Code Section ── */
-    .qr-section {
-      background: #161b22;
-      border: 1px solid #21262d;
-      border-radius: 16px;
-      padding: 24px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .qr-title {
-      font-size: 11px;
-      font-weight: 600;
-      color: #52b788;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-    }
-
-    #qrcode {
-      background: #fff;
-      border-radius: 10px;
-      padding: 8px;
-      display: inline-flex;
-    }
-
-    #qrcode canvas, #qrcode img { display: block; border-radius: 4px; }
-
-    .qr-url-row {
-      display: flex;
-      gap: 8px;
-      width: 100%;
-    }
-
-    .qr-url-input {
-      flex: 1;
-      background: #0d1117;
-      border: 1px solid #30363d;
-      border-radius: 8px;
-      color: #8b949e;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      padding: 8px 12px;
-      outline: none;
-      transition: border-color 0.15s;
-    }
-
-    .qr-url-input:focus {
-      border-color: #52b788;
-      color: #e6edf3;
-    }
-
-    .qr-update-btn {
-      background: #2d6a4f;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      padding: 8px 14px;
-      cursor: pointer;
-      transition: background 0.15s;
-      white-space: nowrap;
-    }
-
-    .qr-update-btn:hover { background: #40916c; }
-
-    .qr-download-btn {
-      background: transparent;
-      color: #52b788;
-      border: 1px solid #2d6a4f;
-      border-radius: 8px;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      padding: 8px 20px;
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .qr-download-btn:hover {
-      background: #1a2e23;
-    }
-
-    .qr-note {
-      font-size: 12px;
-      color: #3e4c59;
-      text-align: center;
-    }
-
     /* ── Footer ── */
     footer {
       text-align: center;
@@ -314,82 +219,12 @@
 
     </nav>
 
-    <!-- QR Code -->
-    <div class="qr-section">
-      <p class="qr-title">&#9632; Scan to Share</p>
-      <div id="qrcode"></div>
-      <div class="qr-url-row">
-        <input
-          type="url"
-          id="qr-url-input"
-          class="qr-url-input"
-          placeholder="Enter your page URL for QR code..."
-        />
-        <button class="qr-update-btn" onclick="updateQR()">Update</button>
-      </div>
-      <button class="qr-download-btn" onclick="downloadQR()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-          <polyline points="7 10 12 15 17 10"/>
-          <line x1="12" y1="15" x2="12" y2="3"/>
-        </svg>
-        Download QR Code
-      </button>
-      <p class="qr-note">Once this page is hosted, paste the URL above and click Update.</p>
-    </div>
-
     <footer>
       &copy; 2026 Suds &amp; Shrubs &nbsp;&middot;&nbsp; All rights reserved
     </footer>
 
   </div>
 
-  <!-- QR Code Library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
-    integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSi2jPsROqiefWMDkydtJn3Nj80OiJTiRfzg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-  <script>
-    // Default QR target: current page URL (works when hosted), else the website URL
-    const defaultUrl = window.location.href.startsWith('file:')
-      ? 'https://suds-shrubs.com'
-      : window.location.href;
-
-    const input = document.getElementById('qr-url-input');
-    input.value = defaultUrl;
-
-    let qrInstance = null;
-
-    function buildQR(url) {
-      const container = document.getElementById('qrcode');
-      container.innerHTML = '';
-      qrInstance = new QRCode(container, {
-        text: url,
-        width: 168,
-        height: 168,
-        colorDark: '#0d1117',
-        colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.H
-      });
-    }
-
-    function updateQR() {
-      const url = input.value.trim();
-      if (!url) return;
-      buildQR(url);
-    }
-
-    function downloadQR() {
-      const canvas = document.querySelector('#qrcode canvas');
-      if (!canvas) { alert('QR code not generated yet.'); return; }
-      const link = document.createElement('a');
-      link.download = 'suds-shrubs-qr.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    }
-
-    // Generate on load
-    buildQR(defaultUrl);
-  </script>
 </body>
 </html>
